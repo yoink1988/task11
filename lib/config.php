@@ -1,6 +1,7 @@
 <?php
 
 define ("ROOT" , __DIR__ . "/..");
+define('TEMPLATE', ROOT.'/templates/index.php');
 
 
 define ("HOST", "localhost");

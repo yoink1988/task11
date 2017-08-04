@@ -43,12 +43,19 @@ class MyTest
 			$this->inTable = true;
 			$this->setKey($arr['key']);
 			$this->setData($arr['data']);
+			return true;
 		}
 		else
 		{
 			$this->inTable = false;
+			return false;
 		}
+	}
 
+
+	public function clearString($string)
+	{
+		return mysql_escape_string($string);
 	}
 
 	public function save()
@@ -58,20 +65,32 @@ class MyTest
 			if($this->key && $this->data) //есть ключ и дата \\ апдейтим
 			{
 				$this->sql->update()->setTable(TABLE_NAME)->setParams(array("`data`" => "'{$this->data}'"))->setWhere("`key` = '{$this->key}'")->setLimit(1);
-				$this->db->update($this->sql->exec());
+				if($this->db->update($this->sql->exec()))
+				{
+					return true;
+				}
+				return false;
 			}
 			if(($this->key) && (!$this->data))   //есть ключ нет даты \\ делитим
 			{
-				$this->sql->delete()->setTable(TABLE_NAME)->setWhere("`key` = '{$this->key}'")->setLimit(1);
-				$this->db->delete($this->sql->exec());
+				$this->sql->delete()->setTable(TABLE_NAME)->setWhere("`key` = '{$this->key}'");
+				if($this->db->delete($this->sql->exec()))
+				{
 				unset($this);
+				return true;
+				}
+				return false;
 			}
-
 		}
+		
 		if((!$this->inTable) && ($this->data))// нет в таблице \\ инсертим
 		{
 			$this->sql->insert()->setTable(TABLE_NAME)->setColumns("`key`, `data`")->setParams(array("'{$this->key}'","'{$this->data}'"))->setLimit(1);
-			$this->db->insert($this->sql->exec());
+			if($this->db->insert($this->sql->exec()))
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 

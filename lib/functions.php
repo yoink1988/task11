@@ -17,3 +17,13 @@ function __autoload($classname)
 		throw new Exception('no such file : '.ROOT.'/lib/'.$classname.'.php');
 	}
 }
+
+function templateRender($array)
+{
+	$template = file_get_contents(TEMPLATE);
+	foreach($array as $key => $val)
+	{
+		$template = str_replace($key, $val, $template);
+	}
+	echo $template;
+   }

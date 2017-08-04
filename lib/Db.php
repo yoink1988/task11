@@ -19,6 +19,16 @@ class Db
 		return self::$instance = new self(HOST,USER,PASS,DB_NAME,TABLE_NAME);
 	}
 
+	private function __construct($host,$user,$pass,$db,$tbl)
+	{
+		$this->host = $host;
+		$this->db = $db;
+		$this->user = $user;
+		$this->pass = $pass;
+		$this->tbl = $tbl;
+	}
+
+
 	private function getConnect()
 	{
 		if($this->link !=null)
@@ -46,56 +56,47 @@ class Db
 			}
 			return $result;
 		}
-		echo mysql_error($this->getConnect());
+		return false;
 	}
 	
 	
 	
 	public function doQuery($query)
 	{
-
 		return mysql_query($query, $this->getConnect());
 	}
 
-
-	
 	public function delete($query)
 	{
-
-		if($this->doQuery($query))
+	if($this->doQuery($query))
 		{
-			return mysql_affected_rows($this->getConnect());
+			return true;
 		}
 		return false;
 	}
 	
-	
 	public function update($query)
 	{
-
 		if($this->doQuery($query))
 		{
-			return mysql_affected_rows($this->getConnect());
+			return true;
 		}
 		return false;
 			
 	}
+
 	public function insert($query)
 	{
-		echo $query;
+
 		if($this->doQuery($query))
 		{
-			return mysql_insert_id($this->getConnect());
+			return true;
 		}
 		return false;
 	}
 
-	private function __construct($host,$user,$pass,$db,$tbl)
-	{
-		$this->host = $host;
-		$this->db = $db;
-		$this->user = $user;
-		$this->pass = $pass;
-		$this->tbl = $tbl;
-	}
+
+
+
+
 }

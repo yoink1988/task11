@@ -13,7 +13,7 @@ class Sql
     protected $distinct = false;
     protected $having ='';
     protected $group ='';
-    protected $desc =false;
+    protected $desc = false;
 
 
 
@@ -181,14 +181,13 @@ class Sql
 				}
 				else
 				{
-					$this->query = "";
+					$this->query = "no where no delete";
 					break;
 				}
 				if($this->limit)
 				{
 					$this->query .= " limit {$this->limit}";
                 }
-                echo $this->query;
 				break;
 			case 'update':
 				$this->query .= "update {$this->table} set ";
@@ -204,7 +203,7 @@ class Sql
 				}
 				else
 				{
-					$this->query = "";
+					$this->query = "no where - no update";
 					break;
 				}
 				if($this->limit)
